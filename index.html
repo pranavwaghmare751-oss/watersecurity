@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b171a">
+  <meta name="description" content="HydroSmart: a building-wide water-management concept by Pranav Waghmare.">
+  <title>HydroSmart | Building Water Management</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b171a;
+      --surface: #112226;
+      --surface-2: #192e32;
+      --text: #f0f8f6;
+      --muted: #b2c3bf;
+      --mint: #79edc7;
+      --cyan: #70cee4;
+      --line: rgba(190, 231, 219, .16);
+      --width: 980px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 78px;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 78% 0%, rgba(54, 145, 148, .17), transparent 34rem),
+        radial-gradient(ellipse at 3% 35%, rgba(52, 179, 137, .08), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.65 "Segoe UI", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; }
+
+    .wrap {
+      width: min(var(--width), calc(100% - 36px));
+      margin-inline: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      border-bottom: 1px solid var(--line);
+      background: rgba(11, 23, 26, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      min-height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: -.04em;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      color: #09231c;
+      background: linear-gradient(140deg, var(--mint), var(--cyan));
+      font-size: 1.2rem;
+    }
+
+    .brand-name span { color: var(--mint); }
+
+    .nav-note {
+      color: var(--muted);
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-align: right;
+    }
+
+    .hero { padding: 55px 0 32px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      color: #d0e0dc;
+      background: rgba(255, 255, 255, .035);
+      font-size: .7rem;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mint);
+      box-shadow: 0 0 12px var(--mint);
+    }
+
+    h1 {
+      margin: 18px 0 15px;
+      color: var(--text);
+      font-size: clamp(2.7rem, 7vw, 5rem);
+      line-height: .98;
+      letter-spacing: -.07em;
+    }
+
+    .accent {
+      color: transparent;
+      background: linear-gradient(100deg, var(--mint), var(--cyan));
+      background-clip: text;
+    }
+
+    .lead {
+      max-width: 520px;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 15px;
+      border-radius: 12px;
+      color: #09231c;
+      background: linear-gradient(110deg, var(--mint), var(--cyan));
+      text-decoration: none;
+      font-size: .85rem;
+      font-weight: 800;
+      transition: transform .2s;
+    }
+
+    .button:hover { transform: translateY(-2px); }
+
+    .visual {
+      padding: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(160, 222, 210, .2);
+      border-radius: 24px;
+      background: linear-gradient(145deg, #173238, #0e2024);
+      box-shadow: 0 22px 70px rgba(0, 0, 0, .24);
+    }
+
+    .visual-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 2px 4px 10px;
+      color: var(--muted);
+      font-size: .66rem;
+      letter-spacing: .06em;
+    }
+
+    .visual-label strong { color: var(--text); }
+    .building-art { display: block; width: 100%; height: auto; }
+
+    section { padding: 30px 0 10px; }
+
+    .kicker {
+      color: var(--mint);
+      font-size: .69rem;
+      font-weight: 800;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 6px 0 8px;
+      color: var(--text);
+      font-size: clamp(1.7rem, 4vw, 2.3rem);
+      line-height: 1.1;
+      letter-spacing: -.05em;
+    }
+
+    .intro {
+      max-width: 700px;
+      margin: 0 0 17px;
+      color: var(--muted);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .feature-card {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: linear-gradient(145deg, #152b2f, #102125);
+      transition: transform .2s, border-color .2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(121, 237, 199, .35);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(121, 237, 199, .2);
+      border-radius: 13px;
+      color: var(--mint);
+      background: rgba(121, 237, 199, .08);
+      font-size: 1.1rem;
+    }
+
+    .feature-card h3 {
+      margin: 10px 0 5px;
+      color: var(--text);
+      font-size: .94rem;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .vision {
+      margin-top: 20px;
+      padding: 18px;
+      border: 1px solid rgba(121, 237, 199, .2);
+      border-radius: 18px;
+      background: linear-gradient(100deg, rgba(66, 178, 144, .1), #102226);
+    }
+
+    .vision p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    .prototype-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .prototype-card {
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 7px;
+      padding: 3px 8px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      color: var(--mint);
+      font-size: .65rem;
+      font-weight: 750;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .prototype-card h3 {
+      margin: 0 0 6px;
+      color: var(--text);
+      font-size: .95rem;
+    }
+
+    .prototype-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .83rem;
+    }
+
+    /* Component photos are presented as readable rows. */
+    .component-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 11px;
+    }
+
+    .component-row {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      align-items: center;
+      gap: 17px;
+      min-height: 126px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: var(--surface);
+    }
+
+    .component-photo {
+      width: 132px;
+      height: 100px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      padding: 7px;
+      border: 1px solid rgba(190, 231, 219, .12);
+      border-radius: 12px;
+      background: #f5f7f6;
+    }
+
+    .component-photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .image-error {
+      display: none;
+      padding: 8px;
+      color: #425854;
+      font-size: .76rem;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .component-info h3 {
+      margin: 0 0 5px;
+      color: var(--text);
+      font-size: .96rem;
+    }
+
+    .component-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .84rem;
+    }
+
+    .other-parts {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .part-chip {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 99px;
+      color: #d1e0dc;
+      background: rgba(255, 255, 255, .035);
+      font-size: .78rem;
+    }
+
+    .developer {
+      display: grid;
+      grid-template-columns: 112px 1fr;
+      align-items: center;
+      gap: 16px;
+      margin-top: 25px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 19px;
+      background: var(--surface);
+    }
+
+    .portrait {
+      width: 112px;
+      height: 124px;
+      overflow: hidden;
+      border: 1px solid rgba(121, 237, 199, .25);
+      border-radius: 15px;
+      background: var(--surface-2);
+    }
+
+    .portrait img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+    }
+
+    .initials {
+      display: none;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: #09231c;
+      background: linear-gradient(135deg, var(--mint), var(--cyan));
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
+
+    .developer small {
+      display: block;
+      color: var(--mint);
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .13em;
+    }
+
+    .developer h3 {
+      margin: 4px 0 5px;
+      color: var(--text);
+      font-size: 1.08rem;
+    }
+
+    .developer p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .83rem;
+    }
+
+    .privacy {
+      margin-top: 10px;
+      color: #9aafab;
+      font-size: .73rem;
+    }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 16px 0 23px;
+      border-top: 1px solid var(--line);
+      color: #9aafab;
+      font-size: .72rem;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+      .visual { max-width: 560px; width: 100%; margin: auto; }
+      .feature-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 500px) {
+      .wrap { width: calc(100% - 30px); }
+      .nav-note { max-width: 155px; font-size: .62rem; }
+      .hero { padding-top: 39px; }
+      h1 { font-size: clamp(2.8rem, 14vw, 4rem); }
+      .feature-grid, .prototype-grid { grid-template-columns: 1fr; }
+
+      .component-row {
+        grid-template-columns: 88px 1fr;
+        gap: 12px;
+        min-height: 104px;
+        padding: 10px;
+      }
+
+      .component-photo {
+        width: 88px;
+        height: 82px;
+      }
+
+      .component-info h3 { font-size: .9rem; }
+      .component-info p { font-size: .78rem; }
+
+      .developer {
+        grid-template-columns: 82px 1fr;
+        gap: 12px;
+        padding: 12px;
+      }
+
+      .portrait { width: 82px; height: 100px; }
+      footer { flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+      }
+
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body>
+<header class="topbar">
+  <nav class="wrap nav" aria-label="Main navigation">
+    <a class="brand" href="#top">
+      <span class="brand-icon" aria-hidden="true">◉</span>
+      <span class="brand-name">Hydro<span>Smart</span></span>
+    </a>
+    <span class="nav-note">BUILDING-WIDE WATER MANAGEMENT</span>
+  </nav>
+</header>
+
+<main class="wrap" id="top">
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="reveal">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          A smarter vision for residential buildings
+        </div>
+
+        <h1>Water for the whole building.<br><span class="accent">Managed better.</span></h1>
+
+        <p class="lead">
+          HydroSmart is a building water-management concept: monitor total
+          building consumption, shared tanks, water conditions, and system
+          performance—with the goal of making water use easier to understand.
+        </p>
+
+        <a class="button" href="#vision">Explore the project <span aria-hidden="true">↓</span></a>
+      </div>
+
+      <div class="visual reveal">
+        <div class="visual-label">
+          <strong>HYDROSMART / BUILDING WATER SYSTEM</strong>
+          <span>CONCEPT</span>
+        </div>
+
+        <svg class="building-art" viewBox="0 0 560 380" role="img"
+             aria-label="Residential building with underground tank, rooftop tank, building meter, and monitoring system">
+          <defs>
+            <linearGradient id="tankWater" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#79edc7" stop-opacity=".85"/>
+              <stop offset="1" stop-color="#4eaccb" stop-opacity=".88"/>
+            </linearGradient>
+          </defs>
+
+          <path d="M15 70H545M15 145H545M15 220H545M15 295H545"
+                stroke="#b5ddd4" stroke-opacity=".045"/>
+          <path d="M75 20V355M155 20V355M235 20V355M315 20V355M395 20V355M475 20V355"
+                stroke="#b5ddd4" stroke-opacity=".035"/>
+
+          <!-- Residential building -->
+          <path d="M180 108 270 73l90 35v170H180Z"
+                fill="#17373c" stroke="#75d7be" stroke-width="2"/>
+          <text x="270" y="128" fill="#eff8f5" text-anchor="middle"
+                font-size="10" font-weight="700" font-family="system-ui">RESIDENTIAL BUILDING</text>
+
+          <g fill="#173039" stroke="#6ca79c" stroke-opacity=".6">
+            <rect x="197" y="144" width="65" height="48" rx="4"/>
+            <rect x="278" y="144" width="65" height="48" rx="4"/>
+            <rect x="197" y="205" width="65" height="48" rx="4"/>
+            <rect x="278" y="205" width="65" height="48" rx="4"/>
+          </g>
+
+          <g fill="#7ce0c7">
+            <rect x="209" y="155" width="16" height="15" rx="2"/>
+            <rect x="234" y="155" width="16" height="15" rx="2"/>
+            <rect x="290" y="155" width="16" height="15" rx="2"/>
+            <rect x="315" y="155" width="16" height="15" rx="2"/>
+            <rect x="209" y="216" width="16" height="15" rx="2"/>
+            <rect x="234" y="216" width="16" height="15" rx="2"/>
+            <rect x="290" y="216" width="16" height="15" rx="2"/>
+            <rect x="315" y="216" width="16" height="15" rx="2"/>
+          </g>
+
+          <!-- Rooftop overhead tank -->
+          <rect x="238" y="33" width="64" height="39" rx="7"
+                fill="#112e34" stroke="#79edc7" stroke-width="2"/>
+          <path d="M241 51h58v16h-58Z" fill="url(#tankWater)"/>
+          <text x="270" y="24" fill="#b9d7d1" text-anchor="middle"
+                font-size="9" font-family="system-ui">ROOFTOP OVERHEAD TANK</text>
+
+          <!-- Building main supply and meter -->
+          <path d="M360 165h49v73h-49" fill="none" stroke="#79edc7" stroke-width="4"/>
+          <circle cx="430" cy="202" r="18" fill="#102b30" stroke="#79edc7" stroke-width="3"/>
+          <path d="M422 202h16m-8-8v16" stroke="#baf5e4" stroke-width="2"/>
+          <text x="470" y="197" fill="#d6ebe6" font-size="9" font-family="system-ui">MAIN INLET</text>
+          <text x="470" y="211" fill="#d6ebe6" font-size="9" font-family="system-ui">BUILDING METER</text>
+
+          <!-- Underground tank -->
+          <path d="M202 278v35a11 11 0 0 0 11 11h114a11 11 0 0 0 11-11v-35"
+                fill="#10282e" stroke="#69c7b1" stroke-width="2"/>
+          <path d="M208 300h124v13a7 7 0 0 1-7 7H215a7 7 0 0 1-7-7Z" fill="url(#tankWater)"/>
+          <text x="270" y="346" fill="#b9d7d1" text-anchor="middle"
+                font-size="9" font-family="system-ui">UNDERGROUND STORAGE TANK</text>
+
+          <!-- Pump -->
+          <path d="M334 305h73v-55" fill="none" stroke="#67c6df" stroke-width="4"/>
+          <circle cx="407" cy="270" r="13" fill="#102b30" stroke="#72cee4" stroke-width="2"/>
+          <path d="m403 263 10 7-10 7Z" fill="#a8ebf1"/>
+          <text x="446" y="273" fill="#c8ddd8" font-size="9" font-family="system-ui">PUMP</text>
+
+          <!-- Monitoring panel -->
+          <rect x="24" y="153" width="118" height="79" rx="13"
+                fill="#102b30" stroke="#70cbb8" stroke-width="2"/>
+          <rect x="40" y="168" width="86" height="44" rx="5"
+                fill="#173b3d" stroke="#79edc7" stroke-opacity=".7"/>
+          <text x="83" y="186" fill="#aef4d9" text-anchor="middle"
+                font-size="9" font-family="monospace">HYDROSMART</text>
+          <text x="83" y="200" fill="#d6ebe4" text-anchor="middle"
+                font-size="8" font-family="monospace">TOTAL BUILDING</text>
+          <text x="83" y="248" fill="#a2bdb7" text-anchor="middle"
+                font-size="8" font-family="system-ui">MONITORING</text>
+          <path d="M142 193h38" stroke="#79edc7" stroke-width="2" stroke-dasharray="4 5"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal" id="vision">
+    <div class="kicker">The building-scale idea</div>
+    <h2>One shared water system. A clearer picture.</h2>
+    <p class="intro">
+      HydroSmart focuses on the building’s overall water supply and shared
+      infrastructure—not calculating consumption for individual flats.
+    </p>
+
+    <div class="feature-grid">
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">≈</div>
+        <h3>Building-wide consumption</h3>
+        <p>Measure water passing through the building’s main supply to understand overall use.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">▤</div>
+        <h3>Underground and overhead tanks</h3>
+        <p>Monitor underground storage and rooftop tanks to understand water availability.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">◉</div>
+        <h3>Water-condition monitoring</h3>
+        <p>Use sensor readings as indicators that can prompt further water testing.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">⌁</div>
+        <h3>Leak awareness</h3>
+        <p>Future leak sensors or unusual flow patterns could help flag possible leaks.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">↗</div>
+        <h3>Pressure monitoring</h3>
+        <p>Additional pressure sensors could help track changes in building water distribution.</p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">▥</div>
+        <h3>Building-level reports</h3>
+        <p>Bring total usage, tank status, and system alerts together in one overview.</p>
+      </article>
+    </div>
+
+    <div class="vision">
+      <div class="kicker">Project goal</div>
+      <p>
+        Make building-wide water use easier to understand, support better
+        decisions about shared resources, and help people notice possible
+        problems sooner.
+      </p>
+    </div>
+  </section>
+
+  <section class="reveal" id="prototype">
+    <div class="kicker">Prototype and future direction</div>
+    <h2>Starting small, thinking building-wide.</h2>
+    <p class="intro">
+      The current Arduino build is an educational prototype exploring sensors,
+      water readings, an LCD, and pump control.
+    </p>
+
+    <div class="prototype-grid">
+      <article class="prototype-card">
+        <span class="tag">Current prototype</span>
+        <h3>Hands-on water monitoring</h3>
+        <p>
+          Arduino Uno R3, ultrasonic level sensor, YF-S401 flow sensor,
+          TDS and turbidity sensors, LCD, soil-moisture sensor, relays, and pumps.
+        </p>
+      </article>
+
+      <article class="prototype-card">
+        <span class="tag">Future concept</span>
+        <h3>Building water management</h3>
+        <p>
+          Main-inlet building meter, monitoring of multiple tanks, pressure
+          sensors, leak detectors, communications, and a shared dashboard.
+        </p>
+      </article>
+    </div>
+
+    <p class="intro" style="font-size:.75rem;margin-top:12px">
+      Building-wide consumption, multiple-tank monitoring, pressure monitoring,
+      and leak alerts are future goals; they are not all measured by the current
+      prototype. Sensor readings alone do not certify that water is safe to drink.
+    </p>
+  </section>
+
+  <section class="reveal" id="components">
+    <div class="kicker">Project components</div>
+    <h2>Inside the HydroSmart prototype</h2>
+    <p class="intro">
+      Component photos and descriptions are displayed in a readable list.
+      Keep the image files in the same folder as this HTML file.
+    </p>
+
+    <div class="component-list">
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="arduino%20uno%20r3.jpeg" alt="Arduino Uno R3 board" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>Arduino Uno R3</h3>
+          <p>The controller that reads sensor inputs, calculates values, updates the LCD, and controls relay signals.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="WFS.jpeg" alt="Water-flow sensor" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>Water-flow sensor</h3>
+          <p>Measures flow through the pipe where it is installed. Building-wide use would require a meter at the building’s main supply.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="Soil%20moisture%20Sensor.jpeg" alt="HW-080 soil-moisture sensor" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>HW-080 soil-moisture sensor</h3>
+          <p>Reads soil moisture for the irrigation part of the prototype.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="Relay%205v%20dual%20channel.jpeg" alt="5 V dual-channel relay module" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>5 V dual-channel relay</h3>
+          <p>Switches the pump circuits using control signals from the Arduino.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="TDS%20SENSOR.jpeg" alt="TDS sensor module" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>TDS sensor</h3>
+          <p>Provides a dissolved-solids reading for monitoring and demonstration.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="ultrasonic%20sensor.jpeg" alt="Ultrasonic distance sensor" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>Ultrasonic sensor</h3>
+          <p>Measures distance to the water surface to estimate tank level.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="Turbidity%20Sensor.jpeg" alt="Water turbidity sensor" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>Turbidity sensor</h3>
+          <p>Provides a relative indication of water cloudiness; it does not certify water safety.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="i2c%20display.jpeg" alt="16 by 2 I2C LCD display" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>16×2 I²C LCD</h3>
+          <p>Displays measurements and system information from the Arduino prototype.</p>
+        </div>
+      </article>
+
+      <article class="component-row">
+        <div class="component-photo">
+          <img src="waterpump.jpeg" alt="Water pump" loading="lazy"
+               onerror="this.hidden=true;this.nextElementSibling.style.display='block'">
+          <span class="image-error">Image unavailable.<br>Check filename.</span>
+        </div>
+        <div class="component-info">
+          <h3>Water pump</h3>
+          <p>Moves water in the prototype. Pumps require suitable external power supplies and correctly rated switching.</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="other-parts" aria-label="Other project items">
+      <span class="part-chip">Pushbuttons</span>
+      <span class="part-chip">Wires and tubing</span>
+      <span class="part-chip">Separate pump power supplies</span>
+    </div>
+  </section>
+
+  <section class="reveal" id="developer">
+    <div class="kicker">About the developer</div>
+    <h2>A student building toward a smarter future.</h2>
+
+    <div class="developer">
+      <div class="portrait">
+        <img
+          src="WhatsApp%20Image%202026-10-18%20at%2010.26.24%20AM.jpeg"
+          alt="Portrait of Pranav Waghmare"
+          loading="lazy"
+          onerror="this.hidden=true;this.nextElementSibling.style.display='grid'">
+        <div class="initials" aria-hidden="true">PW</div>
+      </div>
+
+      <div>
+        <small>HYDROSMART DEVELOPER</small>
+        <h3>Pranav Waghmare</h3>
+        <p>
+          A Class 10 student at Podar International School, Sara City,
+          Chakan, Pune, Maharashtra. An intermediate learner in Java and C++,
+          and a technology enthusiast interested in creating practical projects.
+        </p>
+      </div>
+    </div>
+
+    <p class="privacy">
+      This is a public-facing project page. Consider carefully before sharing
+      school or class details online.
+    </p>
+  </section>
+
+  <footer>
+    <span>HydroSmart · Building-wide water-management concept</span>
+    <span>Created by Pranav Waghmare</span>
+  </footer>
+</main>
+
+<script>
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach(element => observer.observe(element));
+  } else {
+    document.querySelectorAll(".reveal").forEach(element => element.classList.add("visible"));
+  }
+</script>
+</body>
+</html>
